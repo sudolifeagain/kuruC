@@ -4,10 +4,10 @@ from pathlib import Path
 import subprocess
 
 # === 設定項目 ===
-SRC_DIR = Path("src")          # コメントを収集するディレクトリ
-README = Path("README.md")     # 更新対象のREADME
-GITHUB_REPO = "sudolifeagain/kuruC"  # <OWNER>/<REPO> に置き換えてください
-BRANCH = "main"                # 対象ブランチ名
+SRC_DIR = Path("src").resolve()
+README = Path("README.md").resolve()
+GITHUB_REPO = "sudolifeagain/kuruC"
+BRANCH = "main"
 
 # Gitのルートディレクトリを取得
 def get_git_root():
@@ -17,13 +17,10 @@ def get_git_root():
         text=True
     ).stdout.strip()
 
-GIT_ROOT = Path(get_git_root())
+GIT_ROOT = Path(get_git_root()).resolve()
 
 def extract_comments(file_path):
-    """
-    C言語ファイルからコメントを抽出して
-    [(行番号, コメント内容)] のリストを返す
-    """
+    """C言語ファイルからコメントを抽出して [(行番号, コメント内容)] を返す"""
     comments = []
     with open(file_path, encoding="utf-8") as f:
         for idx, line in enumerate(f, start=1):
@@ -50,13 +47,14 @@ def generate_comment_section():
     コメントをMarkdown形式で出力する
     """
     result = []
-    for file in SRC_DIR.rglob("*.c"):  # C言語ファイルを対象
-        comments = extract_comments(file)
+    for file in SRC_DIR.rglob("*.c"):
+        abs_file = file.resolve()  # ★絶対パスに変換
+        comments = extract_comments(abs_file)
         if comments:
-            relative_path = file.relative_to(GIT_ROOT)
+            relative_path = abs_file.relative_to(GIT_ROOT)  # ★絶対パス同士で比較
             result.append(f"### `{relative_path}`")
             for line_num, comment in comments:
-                link = generate_github_link(file, line_num)
+                link = generate_github_link(abs_file, line_num)
                 result.append(f"- {comment} ([L{line_num}]({link}))")
             result.append("")  # 空行
     return "\n".join(result)
