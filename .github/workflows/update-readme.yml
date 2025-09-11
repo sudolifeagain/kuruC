@@ -6,6 +6,9 @@ on:
       - "src/**"    # src配下に変更があったときのみ実行
   workflow_dispatch: # 手動実行も可能
 
+permissions:
+  contents: write
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
