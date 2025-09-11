@@ -79,3 +79,8 @@ def update_readme(new_content):
 if __name__ == "__main__":
     section = generate_comment_section()
     update_readme(section)
+
+
+# 変更の確認
+result = subprocess.run(["git", "status", "--short"], capture_output=True, text=True)
+print("Git Status Output:\n", result.stdout)
