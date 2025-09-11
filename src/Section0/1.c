@@ -6,5 +6,4 @@ hogehoge
 // aaaaa
 
 // ssss
-// aaa
 // eee
