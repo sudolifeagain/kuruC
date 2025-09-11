@@ -6,7 +6,7 @@ import subprocess
 # === 設定項目 ===
 SRC_DIR = Path("src")          # コメントを収集するディレクトリ
 README = Path("README.md")     # 更新対象のREADME
-GITHUB_REPO = "your-username/your-repo"  # <OWNER>/<REPO> に置き換えてください
+GITHUB_REPO = "sudolifeagain/kuruC"  # <OWNER>/<REPO> に置き換えてください
 BRANCH = "main"                # 対象ブランチ名
 
 # Gitのルートディレクトリを取得
